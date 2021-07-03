@@ -1,16 +1,8 @@
 #pragma once
-#include <stdlib.h>
-#include <stdio.h>
-#include <string>
+#include "contact.hpp"
 #define NAME 0
 #define NUMBER 1
 using namespace std;
-
-struct contact
-{
-    string name;
-    string number;
-};
 
 struct AVLNode
 {
@@ -363,11 +355,6 @@ void avl_remove(AVL *avl,string &value, int mode){
         avl->_root=_remove_AVL(avl->_root,value, mode);
         avl->_size--;
     }
-}
-
-void printContact(contact &person){
-    cout << "Name  : " << person.name << endl;
-    cout << "Phone : " << person.number << endl;
 }
 
 void preorder(AVLNode *root) {
