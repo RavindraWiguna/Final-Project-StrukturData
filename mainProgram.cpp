@@ -37,7 +37,7 @@ int main(){
         textfile.close();
     }
     else{
-        cout << "Tidak dapat menemukan file telepon.txt!";
+        Log("Tidak dapat menemukan file telepon.txt!");
         return 0;
     }
 
@@ -51,34 +51,35 @@ int main(){
         command = getCommand();
         switch (command){
         case 1:
-            LihatKontak(nameTree._root, numberTree._root);
+            LihatKontak(&nameTree, &numberTree);
             break;
 
         case 2:
-            //TO DO finish tambak kontak
-            TambahKontak(nameTree._root, numberTree._root);
+            //TO DO finish tambak kontak-------->i think finished
+            TambahKontak(&nameTree, &numberTree);
             break;
 
         case 3:
-            HapusKontak(nameTree._root, numberTree._root);
-            Log("Blum ada\n");
+            HapusKontak(&nameTree, &numberTree);
+            Log("Blum ada");
             break;
 
         case 4:
-            SuntingKontak(nameTree._root, numberTree._root);
-            Log("Belum ada\n");
+            SuntingKontak(&nameTree, &numberTree);
+            Log("Belum ada");
             break;
 
         case 5:
             Running = false;
-            Log("Mengakhiri program\n");
+            Log("Mengakhiri program");
             break;
 
         default:
             //seharusnya tidak terjadi
-            Log("Terjadi suatu kesalahan\n");
+            Log("Terjadi suatu kesalahan");
             break;
         }
+        system("cls");
     }
     return 0;
 }

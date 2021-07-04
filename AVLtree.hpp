@@ -3,7 +3,9 @@
 #define NAME 0
 #define NUMBER 1
 using namespace std;
-
+/*
+Berisi segala fungsi dan struktur mengenai Struktur Data AVLTree
+*/
 struct AVLNode
 {
     contact data;
@@ -18,7 +20,6 @@ struct AVL
 };
 
 AVLNode* _avl_createNode(contact &newContact) {
-    // cout << "creating node:" << newContact.name << ' ' << newContact.number << endl;
     AVLNode *newNode = new AVLNode;
     newNode->data.name = newContact.name;
     newNode->data.number = newContact.number;
@@ -28,7 +29,6 @@ AVLNode* _avl_createNode(contact &newContact) {
 }
 
 AVLNode* searchName(AVLNode *root, string &value) {
-    // cout << "loading name" << endl;
     while (root != NULL) {
         if (value < root->data.name)
             root = root->left;
@@ -41,7 +41,6 @@ AVLNode* searchName(AVLNode *root, string &value) {
 }
 
 AVLNode* searchNum(AVLNode *root, string &value) {
-    // cout << "loading number" << endl;
     while (root != NULL) {
         if (value < root->data.number)
             root = root->left;
@@ -55,10 +54,8 @@ AVLNode* searchNum(AVLNode *root, string &value) {
 
 AVLNode *_search(AVLNode *root, string &value, int &mode){
     if(mode == NAME){
-        // cout << "doing search name" << endl;
         return searchName(root, value);
     }
-    // cout << "doing search number" << endl;
     return searchNum(root, value);
 }
 
@@ -307,10 +304,7 @@ bool avl_isEmpty(AVL *avl) {
     return avl->_root == NULL;
 }
 
-// string modeName[2] = {"name", "number"};
-
-bool avl_find(AVL *avl, string &value, int &mode) {
-    // cout << "Search by: " << modeName[mode] << endl; 
+bool avl_find(AVL *avl, string &value, int mode) {
     AVLNode *temp = _search(avl->_root, value, mode);
     if (temp == NULL)
         return false;
@@ -331,26 +325,19 @@ bool avl_find(AVL *avl, string &value, int &mode) {
 
 void avl_insert(AVL *avl,contact &value, int mode){
     if(mode == NAME){
-        // cout << "mode: Name" << endl;
         if(!avl_find(avl,value.name, mode)){
-            // cout << "insert name to avl" << endl;
             avl->_root=_insert_AVL(avl,avl->_root,value, mode);
-            // cout << "finished name" << endl;
             avl->_size++;
         }
     }else{
-        // cout << "mode: NUMBER" << endl;
         if(!avl_find(avl,value.number, mode)){
-            // cout << "insert number to avl" << endl;
             avl->_root=_insert_AVL(avl,avl->_root,value, mode);
-            // cout << "finished number" << endl;
             avl->_size++;
         }        
     }
 }
 
 void avl_remove(AVL *avl,string &value, int mode){
-    // cout << "removing by " << modeName[mode] << endl;
     if(avl_find(avl,value, mode)){
         avl->_root=_remove_AVL(avl->_root,value, mode);
         avl->_size--;
