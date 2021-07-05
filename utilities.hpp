@@ -8,12 +8,38 @@
 Berisi segala fungsi utilities yang menggabungkan AVL, msg, dan contact header
 */
 
-//Util Function
+//-----------------------Util Function---------------------------------------------//
+
+/* Return true jika berhasil dapat nama dan ada di dalam daftar kontak*/
+bool getFindContactName(AVL *nameTree, string *namestr, bool *wantCancel){
+    bool isExist = false;
+    *namestr = getName();
+    if(*namestr == CANCEL_NAME){
+        *wantCancel = true;
+    }
+    if(findInAVL(nameTree, *namestr, NAME)){
+        isExist = true;
+    }
+    return isExist; 
+}
+
+bool getFindContactNumber(AVL *numberTree, string *numberstr, bool *wantCancel){
+    bool isExist = false;
+    *numberstr = getNumber();
+    if(*numberstr == CANCEL_NUM){
+        *wantCancel = true;
+    }
+    if(findInAVL(numberTree, *numberstr, NUMBER)){
+        isExist = true;
+    }
+    return isExist;
+}
+
 void LihatKontak(AVL *nameTree, AVL *numberTree){
     int mode = getMode();
     bool isDescending = getStyle();
     system("cls");
-    Log("Menampilkan kontak");
+    printf("Menampilkan %d Kontak\n", nameTree->_size);
     //table mode
     printTableLine();
     Log("|           N A M A            |   N O M O R   |");
@@ -39,32 +65,23 @@ void TambahKontak(AVL *nameTree, AVL *numberTree){
     Log("Menambah Kontak...");
     contact newPerson;
     bool cancel = false;
+    bool isExist = false;
     //Name phase
     while(true){
-        newPerson.name = getName();
-        //if user want to cancel
-        if(newPerson.name == CANCEL_NAME){
-            cancel = true;
-            break;
-        }
-        //cek apakah sudah ada di daftar
-        if(!findInAVL(nameTree, newPerson.name, NAME)){
-            break;
+        isExist = getFindContactName(nameTree, &newPerson.name, &cancel);
+        if(isExist){
+            Log("Nama ini telah ada dalam kontak!");
         }else{
-            Log("Nama ini telah ada di dalam kontak!");
+            break;
         }
     }
     //Number phase
     while(!cancel){
-        newPerson.number = getNumber();
-        if(newPerson.number == CANCEL_NUM){
-            cancel = true;
-            break;
-        }
-        if(!findInAVL(numberTree, newPerson.number, NUMBER)){
-            break;
+        isExist = getFindContactNumber(numberTree, &newPerson.number, &cancel);
+        if(isExist){
+            Log("Nomor ini telah ada dalam kontak!");
         }else{
-            Log("Nomor ini telah ada di dalam kontak!");
+            break;
         }
     }
 
@@ -94,20 +111,15 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
     Log("Menghapus Kontak...");
     contact delContact;
     bool cancel = false;
+    bool isExist = false;
     //kalo make nama
     if(mode == NAME){
         while(true){
-            delContact.name = getName();
-            //if user want to cancel
-            if(delContact.name == CANCEL_NAME){
-                cancel = true;
-                break;
-            }
-            //cek apakah sudah ada di daftar
-            if(findInAVL(nameTree, delContact.name, NAME)){
+            isExist = getFindContactName(nameTree, &delContact.name, &cancel);
+            if(isExist || cancel){
                 break;
             }else{
-                Log("Nama ini tidak ada di dalam kontak!");
+                Log("Nama tidak ada dalam kontak!");
             }
         }
         //get the number
@@ -117,17 +129,11 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
     else{
         //klo pake nomor
         while(true){
-            delContact.number = getNumber();
-            //if user want to cancel
-            if(delContact.number == CANCEL_NUM){
-                cancel = true;
-                break;
-            }
-            //cek apakah sudah ada di daftar
-            if(findInAVL(numberTree, delContact.number, NUMBER)){
+            isExist = getFindContactNumber(numberTree, &delContact.number, &cancel);
+            if(isExist || cancel){
                 break;
             }else{
-                Log("Nomor ini tidak ada di dalam kontak!");
+                Log("Nomor tidak ada dalam kontak!");
             }
         }
         //get the name
@@ -144,10 +150,9 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
     //hapus in tree
     avlDelete(nameTree, delContact.name, NAME);
     avlDelete(numberTree, delContact.number, NUMBER);
-    //hapus in txt
-    ofstream tmpfile("tmp.txt");
+    //save tree ke dalam tmp.txt
     inOrderSave(nameTree->_root);
-    tmpfile.close();
+    //hapus telepon txt dan gantikan dengan tmp.txt
     int status = std::remove("telepon.txt");
     if(status == 0){
         status = std::rename("tmp.txt", "telepon.txt");

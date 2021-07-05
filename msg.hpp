@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "contact.hpp"
 using namespace std;
 /*
 Berisi segala fungsi untuk mengirimkan pesan kepada pengguna
