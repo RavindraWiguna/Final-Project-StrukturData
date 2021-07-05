@@ -92,8 +92,8 @@ void TambahKontak(AVL *nameTree, AVL *numberTree){
     }
 
     //Jika telah sukses melewati filter diatas, tambahkan ke kontak
-    insertToAVL(nameTree, newPerson, NAME);
-    insertToAVL(numberTree, newPerson, NUMBER);
+    avlInsert(nameTree, newPerson, NAME);
+    avlInsert(numberTree, newPerson, NUMBER);
     //Tambahkan ke file telepon
     cancel = Save(newPerson, "telepon.txt");
     if(!cancel){
@@ -146,7 +146,9 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
         system("pause");
         return;
     }
-
+    /*
+    -Tambah PENGKONFIRMASIAN
+    */
     //hapus in tree
     avlDelete(nameTree, delContact.name, NAME);
     avlDelete(numberTree, delContact.number, NUMBER);
@@ -169,4 +171,10 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
 void SuntingKontak(AVL *nameTree, AVL *numberTree){
     system("cls");
     //TBC
+    //algoritma when i think rite now
+    /*
+    -get the contact name or phone, just like when hapus
+    -ask the modified version
+    -confirm penggantian
+    */
 }

@@ -34,8 +34,8 @@ int main(){
                 person.name = tmp;
             }else{
                 person.number = tmp;
-                insertToAVL(&nameTree, person, NAME);
-                insertToAVL(&numberTree, person, NUMBER);
+                avlInsert(&nameTree, person, NAME);
+                avlInsert(&numberTree, person, NUMBER);
             }
         }
         textfile.close();

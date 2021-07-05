@@ -113,14 +113,14 @@ int getBalanceFactor(AVLNode* node){
 }
 
 //sort by name
-AVLNode *insertName(AVL *avl,AVLNode* node,contact &value){
+AVLNode *insertName(AVLNode* node,contact &value){
     
     if(node==NULL) // udah mencapai leaf
         return createAVLNode(value);
     if(value.name < node->data.name)
-        node->left = insertName(avl,node->left,value);
+        node->left = insertName(node->left,value);
     else if(value.name > node->data.name)
-    	node->right = insertName(avl,node->right,value);
+    	node->right = insertName(node->right,value);
     
     node->height= 1 + maximum(getHeight(node->left),getHeight(node->right)); 
 
@@ -138,14 +138,14 @@ AVLNode *insertName(AVL *avl,AVLNode* node,contact &value){
     return node;    
 }
 
-AVLNode *insertNum(AVL *avl,AVLNode* node,contact &value){
+AVLNode *insertNum(AVLNode* node,contact &value){
     
     if(node==NULL) // udah mencapai leaf
         return createAVLNode(value);
     if(value.number < node->data.number)
-        node->left = insertNum(avl,node->left,value);
+        node->left = insertNum(node->left,value);
     else if(value.number > node->data.number)
-    	node->right = insertNum(avl,node->right,value);
+    	node->right = insertNum(node->right,value);
     
     node->height= 1 + maximum(getHeight(node->left),getHeight(node->right)); 
 
@@ -163,11 +163,11 @@ AVLNode *insertNum(AVL *avl,AVLNode* node,contact &value){
     return node;      
 }
 
-AVLNode* insertToAVL(AVL *avl,AVLNode* node,contact &value, int &mode) {
+AVLNode* insertToAVL(AVLNode* node,contact &value, int &mode) {
     if(mode == NAME){
-        return insertName(avl, node, value);
+        return insertName(node, value);
     }
-    return insertNum(avl, node, value);
+    return insertNum(node, value);
 }
 
 AVLNode* findMinNode(AVLNode *node) {
@@ -314,15 +314,15 @@ bool findInAVL(AVL *avl, string &value, int mode) {
     }
 }
 
-void insertToAVL(AVL *avl,contact &value, int mode){
+void avlInsert(AVL *avl,contact &value, int mode){
     if(mode == NAME){
         if(!findInAVL(avl,value.name, mode)){
-            avl->_root=insertToAVL(avl,avl->_root,value, mode);
+            avl->_root=insertToAVL(avl->_root,value, mode);
             avl->_size++;
         }
     }else{
         if(!findInAVL(avl,value.number, mode)){
-            avl->_root=insertToAVL(avl,avl->_root,value, mode);
+            avl->_root=insertToAVL(avl->_root,value, mode);
             avl->_size++;
         }        
     }
