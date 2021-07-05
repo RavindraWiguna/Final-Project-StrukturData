@@ -3,6 +3,8 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#define NAME 1
+#define NUMBER 2
 #define MAX_NAME 30
 #define MAX_NUM 15
 #define CANCEL_NAME "/cancel"
@@ -25,7 +27,7 @@ void printContact(contact &person){
     printTableLine();
 }
 
-bool isValidNumber(string number){
+bool isValidNumber(std::string number){
     bool rtnval = true;
     if(number.size() > MAX_NUM){
         return false;
@@ -43,11 +45,11 @@ bool isValidNumber(string number){
     return rtnval;
 }
 
-bool isValidName(string name){
+bool isValidName(std::string name){
     return name.size() < MAX_NAME;
 }
 
-string getName(){
+std::string getName(){
     // string namestr;
     char namechar[MAX_NAME];
     while(true){
@@ -61,7 +63,7 @@ string getName(){
     return namechar;
 }
 
-string getNumber(){
+std::string getNumber(){
     // string numstr;
     char numchar[MAX_NUM];
     while(true){
@@ -74,16 +76,16 @@ string getNumber(){
     return numchar;
 }
 
-bool Save(contact &newPerson){
+bool Save(contact &newPerson, std::string fileName){
     bool fail = false;
-    std::ofstream textfile;
-    textfile.open("telepon.txt", std::ios_base::app); 
+    ofstream textfile;
+    textfile.open(fileName, std::ios_base::app); 
     if(textfile.is_open()){
         textfile << newPerson.name << endl;
         textfile << newPerson.number << endl;
         textfile.close();
     }else{
-        printf("Tidak dapat menemukan telepon.txt!");
+        printf("Tidak dapat menemukan %s\n", fileName);
         fail = true;
     }
     return fail;

@@ -16,8 +16,8 @@ int main(){
     textfile.open("telepon.txt");
 
     AVL nameTree, numberTree;
-    avl_init(&nameTree);
-    avl_init(&numberTree);
+    initializeAVL(&nameTree);
+    initializeAVL(&numberTree);
 
     if(textfile.is_open()){
         //extract data
@@ -30,8 +30,8 @@ int main(){
                 person.name = tmp;
             }else{
                 person.number = tmp;
-                avl_insert(&nameTree, person, NAME);
-                avl_insert(&numberTree, person, NUMBER);
+                insertToAVL(&nameTree, person, NAME);
+                insertToAVL(&numberTree, person, NUMBER);
             }
         }
         textfile.close();
@@ -55,13 +55,11 @@ int main(){
             break;
 
         case 2:
-            //TO DO finish tambak kontak-------->i think finished
             TambahKontak(&nameTree, &numberTree);
             break;
 
         case 3:
             HapusKontak(&nameTree, &numberTree);
-            Log("Blum ada");
             break;
 
         case 4:

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "contact.hpp"
 using namespace std;
 /*
 Berisi segala fungsi untuk mengirimkan pesan kepada pengguna
@@ -30,19 +31,36 @@ void showMenu(){
 
 int getCommand(){
     int cmd = 0;
-    while(cmd < 1 || cmd > 5){
-        Log("Silahkan pilih menu yang ingin anda lakukan:");
+    Log("Silahkan pilih menu yang ingin anda lakukan:");
+    while(cin.fail() || cmd < 1 || cmd > 5){
         printf("[Nomor Menu] > ");
         cin >> cmd;
+        cin.clear();
+        cin.ignore(100, '\n');
     }
     return cmd;
 }
 
 int getMode(){
-    int cmd = -1;
-    while(cmd < 0 || cmd > 1){
-        Log("Menggunakan mode [0 = Nama| 1 = Nomor]: ");
+    int cmd = 0;
+    while(cin.fail() || (cmd !=1 && cmd != 2)){
+        printf("Menggunakan mode [%d = Nama| %d = Nomor] : ", NAME, NUMBER);
         cin >> cmd;
+        cin.clear();
+        cin.ignore(100, '\n');
     }
     return cmd;
+}
+
+bool getStyle(){
+    bool isDescending = false;
+    string tmp;
+    Log("[Default Style: Naik]");
+    printf("Masukkan 'D/d' untuk mengubah style menjadi turun | selain itu tetap naik : ");
+    cin >> tmp;
+    printf("\n");
+    if(tmp == "D" || tmp == "d"){
+        isDescending = true;
+    }
+    return isDescending;
 }

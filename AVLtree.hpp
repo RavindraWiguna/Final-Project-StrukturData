@@ -1,34 +1,31 @@
 #pragma once
 #include "contact.hpp"
-#define NAME 0
-#define NUMBER 1
 using namespace std;
 /*
 Berisi segala fungsi dan struktur mengenai Struktur Data AVLTree
 */
-struct AVLNode
-{
+struct AVLNode{
     contact data;
     struct AVLNode *left, *right;
     int height;
 };
 
-struct AVL
-{
+struct AVL{
     AVLNode *_root;
     unsigned int _size;
 };
 
-AVLNode* _avl_createNode(contact &newContact) {
+AVLNode* createAVLNode(contact &newContact){
     AVLNode *newNode = new AVLNode;
     newNode->data.name = newContact.name;
     newNode->data.number = newContact.number;
     newNode->height=1;
-    newNode->left = newNode->right = NULL;
+    newNode->left = NULL;
+    newNode->right = NULL;
     return newNode;
 }
 
-AVLNode* searchName(AVLNode *root, string &value) {
+AVLNode* searchName(AVLNode *root, string &value){
     while (root != NULL) {
         if (value < root->data.name)
             root = root->left;
@@ -40,7 +37,7 @@ AVLNode* searchName(AVLNode *root, string &value) {
     return root;
 }
 
-AVLNode* searchNum(AVLNode *root, string &value) {
+AVLNode* searchNum(AVLNode *root, string &value){
     while (root != NULL) {
         if (value < root->data.number)
             root = root->left;
@@ -52,97 +49,91 @@ AVLNode* searchNum(AVLNode *root, string &value) {
     return root;
 }
 
-AVLNode *_search(AVLNode *root, string &value, int &mode){
+AVLNode *search(AVLNode *root, string &value, int mode){
     if(mode == NAME){
         return searchName(root, value);
     }
     return searchNum(root, value);
 }
 
-int _getHeight(AVLNode* node){
+int getHeight(AVLNode* node){
     if(node==NULL)
         return 0; 
     return node->height;
 }
 
-int _max(int a,int b){
+int maximum(int a,int b){
     return (a > b)? a : b;
 }
 
-AVLNode* _rightRotate(AVLNode* pivotNode) {
+AVLNode*rightRotate(AVLNode* pivotNode){
 
     AVLNode* newParrent=pivotNode->left;
     pivotNode->left=newParrent->right;
     newParrent->right=pivotNode;
 
-    pivotNode->height=_max(_getHeight(pivotNode->left),
-                      _getHeight(pivotNode->right))+1;
-    newParrent->height=_max(_getHeight(newParrent->left),
-                       _getHeight(newParrent->right))+1;
-    
+    pivotNode->height=maximum(getHeight(pivotNode->left), getHeight(pivotNode->right))+1;
+    newParrent->height=maximum(getHeight(newParrent->left), getHeight(newParrent->right))+1;
     return newParrent;
 }
 
-AVLNode* _leftRotate(AVLNode* pivotNode) {
+AVLNode* leftRotate(AVLNode* pivotNode){
 
     AVLNode* newParrent=pivotNode->right;
     pivotNode->right=newParrent->left;
     newParrent->left=pivotNode;
 
-    pivotNode->height=_max(_getHeight(pivotNode->left),
-                      _getHeight(pivotNode->right))+1;
-    newParrent->height=_max(_getHeight(newParrent->left),
-                       _getHeight(newParrent->right))+1;
-    
+    pivotNode->height=maximum(getHeight(pivotNode->left), getHeight(pivotNode->right))+1;
+    newParrent->height=maximum(getHeight(newParrent->left), getHeight(newParrent->right))+1;
     return newParrent;
 }
 
-AVLNode* _leftCaseRotate(AVLNode* node){
-    return _rightRotate(node);
+AVLNode* leftCaseRotate(AVLNode* node){
+    return rightRotate(node);
 }
 
-AVLNode* _rightCaseRotate(AVLNode* node){
-    return _leftRotate(node);
+AVLNode* rightCaseRotate(AVLNode* node){
+    return leftRotate(node);
 }
 
-AVLNode* _leftRightCaseRotate(AVLNode* node){
-    node->left=_leftRotate(node->left);
-    return _rightRotate(node);
+AVLNode* leftRightCaseRotate(AVLNode* node){
+    node->left = leftRotate(node->left);
+    return rightRotate(node);
 }
 
-AVLNode* _rightLeftCaseRotate(AVLNode* node){
-    node->right=_rightRotate(node->right);
-    return _leftRotate(node);
+AVLNode* rightLeftCaseRotate(AVLNode* node){
+    node->right = rightRotate(node->right);
+    return leftRotate(node);
 }
 
-int _getBalanceFactor(AVLNode* node){
+int getBalanceFactor(AVLNode* node){
     if(node==NULL)
         return 0;
-    return _getHeight(node->left)-_getHeight(node->right);
+    return getHeight(node->left)-getHeight(node->right);
 }
 
 //sort by name
 AVLNode *insertName(AVL *avl,AVLNode* node,contact &value){
     
     if(node==NULL) // udah mencapai leaf
-        return _avl_createNode(value);
+        return createAVLNode(value);
     if(value.name < node->data.name)
         node->left = insertName(avl,node->left,value);
     else if(value.name > node->data.name)
     	node->right = insertName(avl,node->right,value);
     
-    node->height= 1 + _max(_getHeight(node->left),_getHeight(node->right)); 
+    node->height= 1 + maximum(getHeight(node->left),getHeight(node->right)); 
 
-    int balanceFactor=_getBalanceFactor(node);
+    int balanceFactor=getBalanceFactor(node);
     
     if(balanceFactor > 1 && value.name < node->left->data.name) // skewed kiri (left-left case)
-        return _leftCaseRotate(node);
+        return leftCaseRotate(node);
     if(balanceFactor > 1 && value.name > node->left->data.name) // 
-		return _leftRightCaseRotate(node);
+		return leftRightCaseRotate(node);
     if(balanceFactor < -1 && value.name > node->right->data.name)
-        return _rightCaseRotate(node);
+        return rightCaseRotate(node);
     if(balanceFactor < -1 && value.name < node->right->data.name)
-        return _rightLeftCaseRotate(node);
+        return rightLeftCaseRotate(node);
     
     return node;    
 }
@@ -150,36 +141,36 @@ AVLNode *insertName(AVL *avl,AVLNode* node,contact &value){
 AVLNode *insertNum(AVL *avl,AVLNode* node,contact &value){
     
     if(node==NULL) // udah mencapai leaf
-        return _avl_createNode(value);
+        return createAVLNode(value);
     if(value.number < node->data.number)
         node->left = insertNum(avl,node->left,value);
     else if(value.number > node->data.number)
     	node->right = insertNum(avl,node->right,value);
     
-    node->height= 1 + _max(_getHeight(node->left),_getHeight(node->right)); 
+    node->height= 1 + maximum(getHeight(node->left),getHeight(node->right)); 
 
-    int balanceFactor=_getBalanceFactor(node);
+    int balanceFactor=getBalanceFactor(node);
     
     if(balanceFactor > 1 && value.number < node->left->data.number) // skewed kiri (left-left case)
-        return _leftCaseRotate(node);
+        return leftCaseRotate(node);
     if(balanceFactor > 1 && value.number > node->left->data.number) // 
-		return _leftRightCaseRotate(node);
+		return leftRightCaseRotate(node);
     if(balanceFactor < -1 && value.number > node->right->data.number)
-        return _rightCaseRotate(node);
+        return rightCaseRotate(node);
     if(balanceFactor < -1 && value.number < node->right->data.number)
-        return _rightLeftCaseRotate(node);
+        return rightLeftCaseRotate(node);
     
     return node;      
 }
 
-AVLNode* _insert_AVL(AVL *avl,AVLNode* node,contact &value, int &mode) {
+AVLNode* insertToAVL(AVL *avl,AVLNode* node,contact &value, int &mode) {
     if(mode == NAME){
         return insertName(avl, node, value);
     }
     return insertNum(avl, node, value);
 }
 
-AVLNode* _findMinNode(AVLNode *node) {
+AVLNode* findMinNode(AVLNode *node) {
     AVLNode *currNode = node;
     while (currNode && currNode->left != NULL)
         currNode = currNode->left;
@@ -210,7 +201,7 @@ AVLNode* removeName(AVLNode* node,string &value){
             free(temp);
         }
         else{
-            temp = _findMinNode(node->right);
+            temp = findMinNode(node->right);
             node->data=temp->data;
             node->right=removeName(node->right,temp->data.name);
         }    
@@ -218,21 +209,21 @@ AVLNode* removeName(AVLNode* node,string &value){
 
 	if(node==NULL) return node;
     
-    node->height=_max(_getHeight(node->left),_getHeight(node->right))+1;
+    node->height=maximum(getHeight(node->left),getHeight(node->right))+1;
 
-    int balanceFactor= _getBalanceFactor(node);
+    int balanceFactor= getBalanceFactor(node);
     
-    if(balanceFactor>1 && _getBalanceFactor(node->left)>=0) 
-        return _leftCaseRotate(node);
+    if(balanceFactor>1 && getBalanceFactor(node->left)>=0) 
+        return leftCaseRotate(node);
 
-    if(balanceFactor>1 && _getBalanceFactor(node->left)<0) 
-        return _leftRightCaseRotate(node);
+    if(balanceFactor>1 && getBalanceFactor(node->left)<0) 
+        return leftRightCaseRotate(node);
   
-    if(balanceFactor < -1 && _getBalanceFactor(node->right)<=0) 
-        return _rightCaseRotate(node);
+    if(balanceFactor < -1 && getBalanceFactor(node->right)<=0) 
+        return rightCaseRotate(node);
 
-    if(balanceFactor < -1 && _getBalanceFactor(node->right)>0) 
-        return _rightLeftCaseRotate(node);
+    if(balanceFactor < -1 && getBalanceFactor(node->right)>0) 
+        return rightLeftCaseRotate(node);
     
     return node;
 }
@@ -261,7 +252,7 @@ AVLNode* removeNum(AVLNode* node,string &value){
             free(temp);
         }
         else{
-            temp = _findMinNode(node->right);
+            temp = findMinNode(node->right);
             node->data=temp->data;
             node->right=removeName(node->right,temp->data.number);
         }    
@@ -269,43 +260,43 @@ AVLNode* removeNum(AVLNode* node,string &value){
 
 	if(node==NULL) return node;
     
-    node->height=_max(_getHeight(node->left),_getHeight(node->right))+1;
+    node->height=maximum(getHeight(node->left),getHeight(node->right))+1;
 
-    int balanceFactor= _getBalanceFactor(node);
+    int balanceFactor= getBalanceFactor(node);
     
-    if(balanceFactor>1 && _getBalanceFactor(node->left)>=0) 
-        return _leftCaseRotate(node);
+    if(balanceFactor>1 && getBalanceFactor(node->left)>=0) 
+        return leftCaseRotate(node);
 
-    if(balanceFactor>1 && _getBalanceFactor(node->left)<0) 
-        return _leftRightCaseRotate(node);
+    if(balanceFactor>1 && getBalanceFactor(node->left)<0) 
+        return leftRightCaseRotate(node);
   
-    if(balanceFactor < -1 && _getBalanceFactor(node->right)<=0) 
-        return _rightCaseRotate(node);
+    if(balanceFactor < -1 && getBalanceFactor(node->right)<=0) 
+        return rightCaseRotate(node);
 
-    if(balanceFactor < -1 && _getBalanceFactor(node->right)>0) 
-        return _rightLeftCaseRotate(node);
+    if(balanceFactor < -1 && getBalanceFactor(node->right)>0) 
+        return rightLeftCaseRotate(node);
     
     return node;
 }
 
-AVLNode* _remove_AVL(AVLNode* node,string &value, int &mode){
+AVLNode* removeAVL(AVLNode* node,string &value, int &mode){
     if(mode == NAME){
         return removeName(node, value);
     }
     return removeNum(node, value);
 }
 
-void avl_init(AVL *avl) {
+void initializeAVL(AVL *avl) {
     avl->_root = NULL;
     avl->_size = 0u;
 }
 
-bool avl_isEmpty(AVL *avl) {
+bool avlIsEmpty(AVL *avl) {
     return avl->_root == NULL;
 }
 
-bool avl_find(AVL *avl, string &value, int mode) {
-    AVLNode *temp = _search(avl->_root, value, mode);
+bool findInAVL(AVL *avl, string &value, int mode) {
+    AVLNode *temp = search(avl->_root, value, mode);
     if (temp == NULL)
         return false;
     
@@ -323,31 +314,57 @@ bool avl_find(AVL *avl, string &value, int mode) {
     }
 }
 
-void avl_insert(AVL *avl,contact &value, int mode){
+void insertToAVL(AVL *avl,contact &value, int mode){
     if(mode == NAME){
-        if(!avl_find(avl,value.name, mode)){
-            avl->_root=_insert_AVL(avl,avl->_root,value, mode);
+        if(!findInAVL(avl,value.name, mode)){
+            avl->_root=insertToAVL(avl,avl->_root,value, mode);
             avl->_size++;
         }
     }else{
-        if(!avl_find(avl,value.number, mode)){
-            avl->_root=_insert_AVL(avl,avl->_root,value, mode);
+        if(!findInAVL(avl,value.number, mode)){
+            avl->_root=insertToAVL(avl,avl->_root,value, mode);
             avl->_size++;
         }        
     }
 }
 
-void avl_remove(AVL *avl,string &value, int mode){
-    if(avl_find(avl,value, mode)){
-        avl->_root=_remove_AVL(avl->_root,value, mode);
+void avlDelete(AVL *avl,string &value, int mode){
+    if(findInAVL(avl,value, mode)){
+        avl->_root=removeAVL(avl->_root,value, mode);
         avl->_size--;
     }
 }
 
-void preorder(AVLNode *root) {
+void avlPreorder(AVLNode *root) {
     if (root) {
-        preorder(root->left);
+        avlPreorder(root->left);
         printContact(root->data);
-        preorder(root->right);
+        avlPreorder(root->right);
     }
+}
+
+void avlPostorder(AVLNode *root){
+    if(root){
+        avlPostorder(root->right);
+        printContact(root->data);
+        avlPostorder(root->left);
+    }
+}
+
+void inOrderSave(AVLNode *root){
+    if(root){
+        Save(root->data, "tmp.txt");
+        inOrderSave(root->left);
+        inOrderSave(root->right);
+    }
+}
+
+string getNodeNumber(AVL *avl, string name){
+    AVLNode *tmp = searchName(avl->_root, name);
+    return tmp->data.number;
+}
+
+string getNodeName(AVL *avl, string number){
+    AVLNode *tmp = searchNum(avl->_root, number);
+    return tmp->data.name;
 }
