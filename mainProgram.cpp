@@ -68,7 +68,6 @@ int main(){
 
         case 4:
             SuntingKontak(&nameTree, &numberTree);
-            Log("Belum ada");
             break;
 
         case 5:

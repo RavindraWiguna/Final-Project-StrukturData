@@ -43,7 +43,7 @@ int getCommand(){
 int getMode(){
     int cmd = 0;
     while(cin.fail() || (cmd !=1 && cmd != 2)){
-        printf("Menggunakan mode [%d = Nama| %d = Nomor] : ", NAME, NUMBER);
+        printf("[%d = Nama| %d = Nomor] : ", NAME, NUMBER);
         cin >> cmd;
         cin.clear();
         cin.ignore(100, '\n');

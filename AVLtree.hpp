@@ -49,11 +49,11 @@ AVLNode* searchNum(AVLNode *root, string &value){
     return root;
 }
 
-AVLNode *search(AVLNode *root, string &value, int mode){
+AVLNode *search(AVLNode *root, contact &value, int mode){
     if(mode == NAME){
-        return searchName(root, value);
+        return searchName(root, value.name);
     }
-    return searchNum(root, value);
+    return searchNum(root, value.number);
 }
 
 int getHeight(AVLNode* node){
@@ -279,11 +279,11 @@ AVLNode* removeNum(AVLNode* node,string &value){
     return node;
 }
 
-AVLNode* removeAVL(AVLNode* node,string &value, int &mode){
+AVLNode* removeAVL(AVLNode* node,contact &value, int &mode){
     if(mode == NAME){
-        return removeName(node, value);
+        return removeName(node, value.name);
     }
-    return removeNum(node, value);
+    return removeNum(node, value.number);
 }
 
 void initializeAVL(AVL *avl) {
@@ -295,19 +295,19 @@ bool avlIsEmpty(AVL *avl) {
     return avl->_root == NULL;
 }
 
-bool findInAVL(AVL *avl, string &value, int mode) {
+bool findInAVL(AVL *avl, contact &value, int mode) {
     AVLNode *temp = search(avl->_root, value, mode);
     if (temp == NULL)
         return false;
     
     //check by mode
     if(mode == NAME){
-        if (temp->data.name == value){
+        if (temp->data.name == value.name){
             return true;
         }
         return false;
     }else{
-        if(temp->data.number == value){
+        if(temp->data.number == value.number){
             return true;
         }
         return false;
@@ -315,20 +315,13 @@ bool findInAVL(AVL *avl, string &value, int mode) {
 }
 
 void avlInsert(AVL *avl,contact &value, int mode){
-    if(mode == NAME){
-        if(!findInAVL(avl,value.name, mode)){
-            avl->_root=insertToAVL(avl->_root,value, mode);
-            avl->_size++;
-        }
-    }else{
-        if(!findInAVL(avl,value.number, mode)){
-            avl->_root=insertToAVL(avl->_root,value, mode);
-            avl->_size++;
-        }        
+    if(!findInAVL(avl, value, mode)){
+        avl->_root=insertToAVL(avl->_root,value, mode);
+        avl->_size++;
     }
 }
 
-void avlDelete(AVL *avl,string &value, int mode){
+void avlDelete(AVL *avl,contact &value, int mode){
     if(findInAVL(avl,value, mode)){
         avl->_root=removeAVL(avl->_root,value, mode);
         avl->_size--;
