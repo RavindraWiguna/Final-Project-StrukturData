@@ -37,7 +37,7 @@ bool isValidNumber(std::string number){
         return false;
     }
     for(string::iterator it = number.begin()+1; it != number.end(); ++it){
-        if(*it < '0' && *it > '9'){
+        if(*it < '0' || *it > '9'){
             rtnval = false;
             break;
         }
