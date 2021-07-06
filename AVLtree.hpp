@@ -351,11 +351,11 @@ void avlPostorder(AVLNode *root){
     }
 }
 
-void inOrderSave(AVLNode *root){
+void inOrderSave(AVLNode *root, string filename){
     if(root){
-        Save(root->data, "tmp.txt");
-        inOrderSave(root->left);
-        inOrderSave(root->right);
+        SaveToText(root->data, filename);
+        inOrderSave(root->left, filename);
+        inOrderSave(root->right, filename);
     }
 }
 

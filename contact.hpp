@@ -76,8 +76,8 @@ std::string getNumber(){
     return numchar;
 }
 
-bool Save(contact &newPerson, std::string fileName){
-    bool fail = false;
+bool SaveToText(contact &newPerson, std::string fileName){
+    bool success = true;
     ofstream textfile;
     textfile.open(fileName, std::ios_base::app); 
     if(textfile.is_open()){
@@ -86,7 +86,7 @@ bool Save(contact &newPerson, std::string fileName){
         textfile.close();
     }else{
         printf("Tidak dapat menemukan %s\n", fileName);
-        fail = true;
+        success = false;
     }
-    return fail;
+    return success;
 }
