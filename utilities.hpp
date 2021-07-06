@@ -51,7 +51,7 @@ void receiveIdentity(AVL *nameTree, AVL *numberTree, contact *person, bool *want
             }
             Log("Nama tidak ada dalam kontak!");
         }
-        if(!wantCancel)
+        if(!(*wantCancel))
             person->number = getNodeNumber(nameTree, person->name);
     }
     else{
@@ -62,7 +62,7 @@ void receiveIdentity(AVL *nameTree, AVL *numberTree, contact *person, bool *want
             }
             Log("Nomor tidak ada dalam kontak!");
         }
-        if(!wantCancel)
+        if(!(*wantCancel))
             person->name = getNodeName(numberTree, person->number);       
     }    
 }
@@ -133,6 +133,7 @@ void TambahKontak(AVL *nameTree, AVL *numberTree){
     }
 
     //Jika telah sukses melewati filter diatas, tambahkan ke kontak
+    cout << "Menambahkan " << newPerson.name << " / " << newPerson.number << endl;
     avlInsert(nameTree, newPerson, NAME);
     avlInsert(numberTree, newPerson, NUMBER);
     if(SaveToText(newPerson, "telepon.txt")){
@@ -159,6 +160,7 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
         return;
     }
     //Hapus the kontak
+    cout << "Menghapus " << delContact.name << " / " << delContact.number << endl;
     avlDelete(nameTree, delContact, NAME);
     avlDelete(numberTree, delContact, NUMBER);
     if(updateDataBase(nameTree)){
@@ -178,13 +180,12 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
     Log("Mencari kontak yang akan disunting berdasarkan:");
     int mode = getMode();
     receiveIdentity(nameTree, numberTree, &editContact, &cancel, mode);
-
     if(cancel){
         Log("Penyuntingan kontak dibatalkan");
         system("pause");
         return;
     }
-    
+    cout << "Mengganti " << editContact.name << " / " << editContact.number << endl;
     //dapatkan identitas baru
     Log("Pilih yang ingin anda ganti:");
     mode = getMode();
@@ -207,7 +208,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
     }
     else{
         //hapus node kontak yang akan di edit pada numbertree
-        avlDelete(nameTree, editContact, NAME);
+        avlDelete(numberTree, editContact, NUMBER);
         //ambil node kontak yang akan di edit pada nametree
         AVLNode *tmp = searchName(nameTree->_root, editContact.name);
         //dapatkan nomor baru
