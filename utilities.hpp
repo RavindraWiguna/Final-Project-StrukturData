@@ -163,7 +163,7 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
     cout << "Menghapus " << delContact.name << " / " << delContact.number << endl;
     avlDelete(nameTree, delContact, NAME);
     avlDelete(numberTree, delContact, NUMBER);
-    if(updateDataBase(nameTree)){
+    if(updateDataBase(numberTree)){
         Log("Berhasil menghapus kontak!");
         system("pause");
         return;
@@ -200,7 +200,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
         tmp->data.name = editContact.name;
         //simpan editContact ke nameTree
         avlInsert(nameTree, editContact, NAME);
-        if(updateDataBase(nameTree)){
+        if(updateDataBase(numberTree)){
             Log("Berhasil menyunting kontak");
             system("pause");
             return;
