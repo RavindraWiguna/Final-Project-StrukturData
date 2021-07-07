@@ -53,7 +53,7 @@ std::string getName(){
     // string namestr;
     char namechar[MAX_NAME];
     while(true){
-        printf("Masukkan nama kontak [Maksimal: %d karakter | Masukkan '%s' untuk batal] >", MAX_NAME, CANCEL_NAME);
+        cout<<"Masukkan nama kontak [Maksimal: "<<MAX_NAME<<" karakter | Masukkan '"<<CANCEL_NAME<<"' untuk batal] >";
         cin.getline (namechar, MAX_NAME);
         // namestr = namechar;
         if(isValidName(namechar)){
@@ -67,7 +67,7 @@ std::string getNumber(){
     // string numstr;
     char numchar[MAX_NUM];
     while(true){
-        printf("Masukkan nomor kontak [Maksimal: %d digit| Masukkan '%s' untuk batal] >", MAX_NUM, CANCEL_NUM);
+        cout << "Masukkan nomor kontak [Maksimal: "<<MAX_NUM<<" digit| Masukkan '"<<CANCEL_NUM<<"' untuk batal] >";
         cin.getline (numchar, MAX_NUM);
         if(isValidNumber(numchar)){
             break;
@@ -85,7 +85,7 @@ bool SaveToText(contact &newPerson, std::string fileName){
         textfile << newPerson.number << endl;
         textfile.close();
     }else{
-        printf("Tidak dapat menemukan %s\n", fileName);
+        cout << "Tidak dapat menemukan " << fileName << endl;
         success = false;
     }
     return success;

@@ -32,7 +32,7 @@ int getCommand(){
     int cmd = 0;
     Log("Silahkan pilih menu yang ingin anda lakukan:");
     while(cin.fail() || cmd < 1 || cmd > 5){
-        printf("[Nomor Menu] > ");
+        cout << "[Nomor Menu] > ";
         cin >> cmd;
         cin.clear();
         cin.ignore(100, '\n');
@@ -43,7 +43,7 @@ int getCommand(){
 int getMode(){
     int cmd = 0;
     while(cin.fail() || (cmd !=1 && cmd != 2)){
-        printf("[%d = Nama| %d = Nomor] : ", NAME, NUMBER);
+        cout << "[" << NAME<< "= Nama|" << NUMBER << " = Nomor] : ";
         cin >> cmd;
         cin.clear();
         cin.ignore(100, '\n');
@@ -55,11 +55,29 @@ bool getStyle(){
     bool isDescending = false;
     string tmp;
     Log("[Default Style: Naik]");
-    printf("Masukkan 'D/d' untuk mengubah style menjadi turun | selain itu tetap naik : ");
+    cout << "Masukkan 'D/d' untuk mengubah style menjadi turun | selain itu tetap naik : ";
     cin >> tmp;
-    printf("\n");
+    cout << '\n';
     if(tmp == "D" || tmp == "d"){
         isDescending = true;
     }
     return isDescending;
+}
+
+bool getConfirmation(){
+    char accepted[100];
+    string acc;
+    bool affirmative = false;
+    while(true){
+        cout << "[Y/N] > ";
+        cin.getline (accepted, 100);
+        acc = accepted;
+        if(acc == "Y" || acc == "y"){
+            affirmative = true;
+            break;
+        }else if(acc == "N" || acc == "n"){
+            break;
+        }
+    }
+    return affirmative;    
 }
