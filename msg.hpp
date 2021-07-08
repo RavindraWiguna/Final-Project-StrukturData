@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "constant.hpp"
 using namespace std;
 /*
 Berisi segala fungsi untuk mengirimkan pesan kepada pengguna

@@ -108,6 +108,12 @@ void LihatKontak(AVL *nameTree, AVL *numberTree){
 
 void TambahKontak(AVL *nameTree, AVL *numberTree){
     system("cls");
+    //cek size kontal
+    if(nameTree->_size  >= 1000){
+        Log("Maaf, kontak sudah penuh!");
+        system("pause");
+        return;
+    }
     Log("Menambah Kontak...");
     contact newPerson;
     bool cancel = false;
@@ -142,8 +148,10 @@ void TambahKontak(AVL *nameTree, AVL *numberTree){
     if(!getConfirmation()){
         goto GetDataLabel;
     }
-    avlInsert(nameTree, newPerson, NAME);
-    avlInsert(numberTree, newPerson, NUMBER);
+    nameTree->_root=insertToAVL(nameTree->_root,newPerson, NAME);
+    numberTree->_root=insertToAVL(numberTree->_root,newPerson, NUMBER);
+    nameTree->_size++;
+    numberTree->_size++;
     if(SaveToText(newPerson, "telepon.txt")){
         Log("Berhasil menambahkan kontak");
         system("pause");
@@ -173,9 +181,10 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
     if(!getConfirmation()){
         goto GetDataLabel;
     }
-
-    avlDelete(nameTree, delContact, NAME);
-    avlDelete(numberTree, delContact, NUMBER);
+    nameTree->_root=removeAVL(nameTree->_root,delContact, NAME);
+    numberTree->_root=removeAVL(numberTree->_root,delContact, NUMBER);
+    nameTree->_size--;
+    numberTree->_size--;
     if(updateDataBase(numberTree)){
         Log("Berhasil menghapus kontak!");
         system("pause");
@@ -234,7 +243,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
             goto GetNewNameLabel;
         }
         //hapus node kontak yang akan di edit pada nametree
-        avlDelete(nameTree, editContact, NAME);
+        nameTree->_root=removeAVL(nameTree->_root,editContact, NAME);
         //ambil node kontak yang akan di edit pada numbertree
         AVLNode *tmp = searchNum(numberTree->_root, editContact.number);
         //ganti nama kontak
@@ -242,6 +251,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
         //ubah nama pada node numbertree
         tmp->data.name = newName;
         //simpan editContact ke nameTree
+        nameTree->_root=insertToAVL(nameTree->_root,editContact, NAME);
         avlInsert(nameTree, editContact, NAME);
         if(updateDataBase(numberTree)){
             Log("Berhasil menyunting kontak");
@@ -272,7 +282,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
         }
 
         //hapus node kontak yang akan di edit pada numbertree
-        avlDelete(numberTree, editContact, NUMBER);
+        numberTree->_root=removeAVL(numberTree->_root,editContact, NUMBER);
         //ambil node kontak yang akan di edit pada nametree
         AVLNode *tmp = searchName(nameTree->_root, editContact.name);        
         //ganti nomor kontak
@@ -280,7 +290,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
         //ubah nomor pada node nametree
         tmp->data.number = editContact.number;
         //simpan editContact ke numberTree
-        avlInsert(numberTree, editContact, NUMBER);
+        numberTree->_root=insertToAVL(numberTree->_root,editContact, NUMBER);
         if(updateDataBase(nameTree)){
             Log("Berhasil menyunting kontak");
             system("pause");

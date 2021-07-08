@@ -163,7 +163,7 @@ AVLNode *insertNum(AVLNode* node,contact &value){
     return node;      
 }
 
-AVLNode* insertToAVL(AVLNode* node,contact &value, int &mode) {
+AVLNode* insertToAVL(AVLNode* node,contact &value, int mode) {
     if(mode == NAME){
         return insertName(node, value);
     }
@@ -279,7 +279,7 @@ AVLNode* removeNum(AVLNode* node,string &value){
     return node;
 }
 
-AVLNode* removeAVL(AVLNode* node,contact &value, int &mode){
+AVLNode* removeAVL(AVLNode* node,contact &value, int mode){
     if(mode == NAME){
         return removeName(node, value.name);
     }

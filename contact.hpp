@@ -3,12 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#define NAME 1
-#define NUMBER 2
-#define MAX_NAME 30
-#define MAX_NUM 15
-#define CANCEL_NAME "/cancel"
-#define CANCEL_NUM "+0"
+#include "constant.hpp"
 using namespace std;
 /*
 Berisi segala fungsi dan struktur yang berhubungan dengan perkontakan
