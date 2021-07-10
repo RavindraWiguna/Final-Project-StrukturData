@@ -57,7 +57,7 @@ bool getStyle(){
     string tmp;
     Log("[Default Style: Naik]");
     cout << "Masukkan 'D/d' untuk mengubah style menjadi turun | selain itu tetap naik : ";
-    cin >> tmp;
+    getline(cin, tmp);
     cout << '\n';
     if(tmp == "D" || tmp == "d"){
         isDescending = true;

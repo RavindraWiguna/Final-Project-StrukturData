@@ -67,9 +67,16 @@ void receiveIdentity(AVL *nameTree, AVL *numberTree, contact *person, bool *want
 }
 /*Return True jika berhasil mengupdate telepon.txt*/
 bool updateDataBase(AVL *sourceTree){
+    Log("Mengupdate data base");
+    //memastikan telah dibuat file tmp.txt dulu
+    ofstream myfile("tmp.txt");
+    myfile.close();
     inOrderSave(sourceTree->_root, "tmp.txt");
+    Log("33% done");
     if(std::remove("telepon.txt") == 0){
+        Log("67% done");
         if(std::rename("tmp.txt", "telepon.txt") == 0){
+            Log("100% done");
             return true;
         }
     }
@@ -97,6 +104,11 @@ void showContact(int mode, bool isDescending, AVL *numberTree, AVL *nameTree){
 
 void LihatKontak(AVL *nameTree, AVL *numberTree){
     system("cls");
+    if(nameTree->_size < 1){
+        Log("Tidak ada kontak yang dapat di tampilkan!");
+        system("pause");
+        return;
+    }
     cout << "Menampilkan " << nameTree->_size << " Kontak\n";
     Log("Diurutkan berdasar:");
     int mode = getMode();
@@ -235,7 +247,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
             return;
         }
         cout << "Mengganti " << editContact.name << " menjadi " << newName << endl;
-        if(!getConfirmation){
+        if(!getConfirmation()){
             goto GetNewNameLabel;
         }
         //hapus node kontak yang akan di edit pada nametree
@@ -273,7 +285,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
             return;
         }
         cout << "Mengganti " << editContact.number << " menjadi " << newNumber << endl;
-        if(!getConfirmation){
+        if(!getConfirmation()){
             goto GetNewNumberLabel;
         }
 
