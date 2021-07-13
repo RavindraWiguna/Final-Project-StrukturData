@@ -46,11 +46,13 @@ bool isValidName(std::string name){
 
 std::string getName(){
     // string namestr;
-    char namechar[MAX_NAME];
+    char namechar[MAX_NAME*MAX_NAME];
     while(true){
         cout<<"Masukkan nama kontak [Maksimal: "<<MAX_NAME<<" karakter | Masukkan '"<<CANCEL_NAME<<"' untuk batal] >";
-        cin.getline (namechar, MAX_NAME);
+        cin.getline (namechar, MAX_NAME*MAX_NAME);
         // namestr = namechar;
+        // cin.clear();
+        // cin.ignore(100, '\n');
         if(isValidName(namechar)){
             break;
         }
@@ -60,13 +62,15 @@ std::string getName(){
 
 std::string getNumber(){
     // string numstr;
-    char numchar[MAX_NUM];
+    char numchar[MAX_NUM*MAX_NUM];
     while(true){
         cout << "Masukkan nomor kontak [Maksimal: "<<MAX_NUM<<" digit| Masukkan '"<<CANCEL_NUM<<"' untuk batal] >";
-        cin.getline (numchar, MAX_NUM);
+        cin.getline (numchar, MAX_NUM*MAX_NUM);
+        // cin.clear();
+        // cin.ignore(100, '\n');
         if(isValidNumber(numchar)){
             break;
-        }
+        }        
     }
     return numchar;
 }

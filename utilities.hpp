@@ -16,12 +16,8 @@ bool getFindContactName(AVL *nameTree, string *namestr, bool *wantCancel){
     contact tmp;
     tmp.name = *namestr;
     tmp.number = "";
-    if(*namestr == CANCEL_NAME){
-        *wantCancel = true;
-    }
-    if(findInAVL(nameTree, tmp, NAME)){
-        isExist = true;
-    }
+    *wantCancel = *namestr == CANCEL_NAME;
+    isExist = findInAVL(nameTree, tmp, NAME);
     return isExist; 
 }
 /* Return true jika berhasil dapat nomor dan ada di dalam daftar kontak*/
@@ -31,12 +27,8 @@ bool getFindContactNumber(AVL *numberTree, string *numberstr, bool *wantCancel){
     contact tmp;
     tmp.name = "";
     tmp.number = *numberstr;
-    if(*numberstr == CANCEL_NUM){
-        *wantCancel = true;
-    }
-    if(findInAVL(numberTree, tmp, NUMBER)){
-        isExist = true;
-    }
+    *wantCancel = *numberstr == CANCEL_NUM;
+    isExist = findInAVL(numberTree, tmp, NUMBER);
     return isExist;
 }
 /*Mengambil input dari user mengenai kontak sesuai mode*/
@@ -299,7 +291,7 @@ void SuntingKontak(AVL *nameTree, AVL *numberTree){
         tmp->data.number = editContact.number;
         //simpan editContact ke numberTree
         avlInsert(numberTree, editContact, NUMBER);
-        if(updateDataBase(nameTree)){
+        if(updateDataBase(numberTree)){
             Log("Berhasil menyunting kontak");
             system("pause");
             return;
