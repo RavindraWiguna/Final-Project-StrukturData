@@ -5,11 +5,11 @@ using namespace std;
 /*
 Berisi segala fungsi untuk mengirimkan pesan kepada pengguna
 */
-
+/*tiruan 'print' python*/
 void Log(const char *msg){
     cout << msg << endl;
 }
-
+/*Berisi pesan selamat datang dan logo*/
 void welcomeMsg(){
     Log("  _______ _____ _____  _                      ");
     Log(" |__   __/ ____|  __ \\| |                     ");
@@ -19,7 +19,7 @@ void welcomeMsg(){
     Log("    |_|  \\_____|_|    |_| |_|\\___/|_| |_|\\___|\n");
     Log("Selamat datang di layanan nomor telepon TCPhone :D");
 }
-
+/*Menampilkan menu yang tersedia pada user*/
 void showMenu(){
     Log("Berikut adalah hal yang dapat anda lakukan:");
     Log("1. Lihat daftar telepon");
@@ -28,7 +28,7 @@ void showMenu(){
     Log("4. Sunting kontak");
     Log("5. Akhiri program");
 }
-
+/*Mendapatkan perintah dari user hingga valid*/
 int getCommand(){
     int cmd = 0;
     Log("Silahkan pilih menu yang ingin anda lakukan:");
@@ -40,7 +40,7 @@ int getCommand(){
     }
     return cmd;
 }
-
+/*Mendapatkan mode dari user hingga valid*/
 int getMode(){
     int cmd = 0;
     while(cin.fail() || (cmd !=1 && cmd != 2)){
@@ -51,7 +51,7 @@ int getMode(){
     }
     return cmd;
 }
-
+/*Mendapatkan style dari user hingga valid*/
 bool getStyle(){
     bool isDescending = false;
     string tmp;
@@ -64,7 +64,7 @@ bool getStyle(){
     }
     return isDescending;
 }
-
+/*Mendapatkan konfirmasi dari user hingga valid*/
 bool getConfirmation(){
     char accepted[100];
     string acc;

@@ -4,17 +4,18 @@ using namespace std;
 /*
 Berisi segala fungsi dan struktur mengenai Struktur Data AVLTree
 */
+/*Deklarasi struct dari avl node*/
 struct AVLNode{
     contact data;
     struct AVLNode *left, *right;
     int height;
 };
-
+/*Deklarasi dari struct AVL*/
 struct AVL{
     AVLNode *_root;
     unsigned int _size;
 };
-
+/*Fungsi untuk membuat node baru berdasarkan parameter kontak yang diberikan*/
 AVLNode* createAVLNode(contact &newContact){
     AVLNode *newNode = new AVLNode;
     newNode->data.name = newContact.name;
@@ -24,7 +25,7 @@ AVLNode* createAVLNode(contact &newContact){
     newNode->right = NULL;
     return newNode;
 }
-
+/*Fungsi untuk mencari nama dalam tree*/
 AVLNode* searchName(AVLNode *root, string &value){
     while (root != NULL) {
         if (value < root->data.name)
@@ -36,7 +37,7 @@ AVLNode* searchName(AVLNode *root, string &value){
     }
     return root;
 }
-
+/*Fungsi untuk mencari nomor dalam tree*/
 AVLNode* searchNum(AVLNode *root, string &value){
     while (root != NULL) {
         if (value < root->data.number)
@@ -48,24 +49,24 @@ AVLNode* searchNum(AVLNode *root, string &value){
     }
     return root;
 }
-
+/*Fungsi untuk menghandle search pada avl (berdasarkan mode)*/
 AVLNode *search(AVLNode *root, contact &value, int mode){
     if(mode == NAME){
         return searchName(root, value.name);
     }
     return searchNum(root, value.number);
 }
-
+/*Fungsi untuk mendapatkan height dari suatu node*/
 int getHeight(AVLNode* node){
     if(node==NULL)
         return 0; 
     return node->height;
 }
-
+/*Fungsi untuk menentukan nilai maksimal antara 2 bilangan*/
 int maximum(int a,int b){
     return (a > b)? a : b;
 }
-
+/*Fungsi untuk meng-Rotate Kanan avl tree*/
 AVLNode*rightRotate(AVLNode* pivotNode){
 
     AVLNode* newParrent=pivotNode->left;
@@ -76,7 +77,7 @@ AVLNode*rightRotate(AVLNode* pivotNode){
     newParrent->height=maximum(getHeight(newParrent->left), getHeight(newParrent->right))+1;
     return newParrent;
 }
-
+/*Fungsi untuk meng-Rotate Kiri avl tree*/
 AVLNode* leftRotate(AVLNode* pivotNode){
 
     AVLNode* newParrent=pivotNode->right;
@@ -87,32 +88,31 @@ AVLNode* leftRotate(AVLNode* pivotNode){
     newParrent->height=maximum(getHeight(newParrent->left), getHeight(newParrent->right))+1;
     return newParrent;
 }
-
+/*Fungsi untuk menghandle leftcase skewed*/
 AVLNode* leftCaseRotate(AVLNode* node){
     return rightRotate(node);
 }
-
+/*Fungsi untuk menghandle rightcase skewed*/
 AVLNode* rightCaseRotate(AVLNode* node){
     return leftRotate(node);
 }
-
+/*Fungsi untuk menghandle zigzag kiri kanan skewed*/
 AVLNode* leftRightCaseRotate(AVLNode* node){
     node->left = leftRotate(node->left);
     return rightRotate(node);
 }
-
+/*Fungsi untuk menghandle zigzag kanan kiri skewed*/
 AVLNode* rightLeftCaseRotate(AVLNode* node){
     node->right = rightRotate(node->right);
     return leftRotate(node);
 }
-
+/*Fungsi untuk mendapatkan faktor keseimbangan*/
 int getBalanceFactor(AVLNode* node){
     if(node==NULL)
         return 0;
     return getHeight(node->left)-getHeight(node->right);
 }
-
-//sort by name
+/*Fungsi untuk menambah node berdasar nama pada avl tree*/
 AVLNode *insertName(AVLNode* node,contact &value){
     
     if(node==NULL) // udah mencapai leaf
@@ -137,7 +137,7 @@ AVLNode *insertName(AVLNode* node,contact &value){
     
     return node;    
 }
-
+/*Fungsi untuk menambah node berdasar nomor pada avl tree*/
 AVLNode *insertNum(AVLNode* node,contact &value){
     
     if(node==NULL) // udah mencapai leaf
@@ -162,21 +162,21 @@ AVLNode *insertNum(AVLNode* node,contact &value){
     
     return node;      
 }
-
+/*Fungsi untuk menghandle peng-insertan avl tree berdasarkan mode*/
 AVLNode* insertToAVL(AVLNode* node,contact &value, int mode) {
     if(mode == NAME){
         return insertName(node, value);
     }
     return insertNum(node, value);
 }
-
+/*Fungsi untuk menemukan node terkecil dari suatu root*/
 AVLNode* findMinNode(AVLNode *node) {
     AVLNode *currNode = node;
     while (currNode && currNode->left != NULL)
         currNode = currNode->left;
     return currNode;
 }
-
+/*Fungsi untuk menghapus node berdasarkan nama*/
 AVLNode* removeName(AVLNode* node,string &value){
     if(node==NULL)
         return node;
@@ -227,7 +227,7 @@ AVLNode* removeName(AVLNode* node,string &value){
     
     return node;
 }
-
+/*Fungsi untuk menghapus node berdasarkan nomor*/
 AVLNode* removeNum(AVLNode* node,string &value){
     if(node==NULL)
         return node;
@@ -278,23 +278,23 @@ AVLNode* removeNum(AVLNode* node,string &value){
     
     return node;
 }
-
+/*Fungsi untuk menghandle penghapusan node pada avl*/
 AVLNode* removeAVL(AVLNode* node,contact &value, int mode){
     if(mode == NAME){
         return removeName(node, value.name);
     }
     return removeNum(node, value.number);
 }
-
+/*Menginisialisasi avl*/
 void initializeAVL(AVL *avl) {
     avl->_root = NULL;
     avl->_size = 0u;
 }
-
+/*Tidak dipakai*/
 bool avlIsEmpty(AVL *avl) {
     return avl->_root == NULL;
 }
-
+/*Fungsi untuk mengecek apakah kontak itu ada di avl*/
 bool findInAVL(AVL *avl, contact &value, int mode) {
     AVLNode *temp = search(avl->_root, value, mode);
     if (temp == NULL)
@@ -313,21 +313,21 @@ bool findInAVL(AVL *avl, contact &value, int mode) {
         return false;
     }
 }
-
+/*Fungsi untuk menghandle penambahan avl tree*/
 void avlInsert(AVL *avl,contact &value, int mode){
     if(!findInAVL(avl, value, mode)){
         avl->_root=insertToAVL(avl->_root,value, mode);
         avl->_size++;
     }
 }
-
+/*Fungsi untuk menghandle penghapusan node di avl*/
 void avlDelete(AVL *avl,contact &value, int mode){
     if(findInAVL(avl,value, mode)){
         avl->_root=removeAVL(avl->_root,value, mode);
         avl->_size--;
     }
 }
-
+/*Fungsi untuk memprintkan isi avl tree secara preorder*/
 void avlPreorder(AVLNode *root) {
     if (root) {
         avlPreorder(root->left);
@@ -335,7 +335,7 @@ void avlPreorder(AVLNode *root) {
         avlPreorder(root->right);
     }
 }
-
+/*Fungsi untuk menampilkan isi avl tree secara postorder*/
 void avlPostorder(AVLNode *root){
     if(root){
         avlPostorder(root->right);
@@ -343,7 +343,7 @@ void avlPostorder(AVLNode *root){
         avlPostorder(root->left);
     }
 }
-
+/*Fungsi untuk menyimpan isi avl tree ke dalam file secara inorder*/
 void inOrderSave(AVLNode *root, string filename){
     if(root){
         SaveToText(root->data, filename);
@@ -351,12 +351,12 @@ void inOrderSave(AVLNode *root, string filename){
         inOrderSave(root->right, filename);
     }
 }
-
+/*Fungsi untuk mendapatkan nomor dari nama suatu node*/
 string getNodeNumber(AVL *avl, string name){
     AVLNode *tmp = searchName(avl->_root, name);
     return tmp->data.number;
 }
-
+/*Fungsi untuk mendapatkan nama dari nomor suatu node*/
 string getNodeName(AVL *avl, string number){
     AVLNode *tmp = searchNum(avl->_root, number);
     return tmp->data.name;

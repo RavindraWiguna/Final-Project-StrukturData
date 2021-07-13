@@ -8,20 +8,21 @@ using namespace std;
 /*
 Berisi segala fungsi dan struktur yang berhubungan dengan perkontakan
 */
+/*Deklarasi Struct Kontak*/
 struct contact{
     string name;
     string number;
 };
-
+/*Memprint garis tabel*/
 void printTableLine(){
      cout << "+------------------------------+---------------+" << endl;
 }
-
+/*Memprint isi kontak dengan bentuk tabel*/
 void printContact(contact &person){
     cout << '|' << setw(MAX_NAME) << left << person.name << setfill(' ') << "|"<< setw(MAX_NUM) << left << person.number << '|' <<endl;
     printTableLine();
 }
-
+/*Mengecek ke-validan input nomor*/
 bool isValidNumber(std::string number){
     bool rtnval = true;
     if(number.size() > MAX_NUM){
@@ -39,11 +40,11 @@ bool isValidNumber(std::string number){
     }
     return rtnval;
 }
-
+/*Mengecek ke-validan input nama*/
 bool isValidName(std::string name){
     return name.size() < MAX_NAME;
 }
-
+/*Mengambil input nama dari user sampai mendapat input yang valid*/
 std::string getName(){
     // string namestr;
     char namechar[MAX_NAME*MAX_NAME];
@@ -59,7 +60,7 @@ std::string getName(){
     }
     return namechar;
 }
-
+/*Mengambil input nomor dari user sampai mendapat input yang valid*/
 std::string getNumber(){
     // string numstr;
     char numchar[MAX_NUM*MAX_NUM];
@@ -74,7 +75,7 @@ std::string getNumber(){
     }
     return numchar;
 }
-
+/*Menambahkan suatu kontak ke dalam suatu text*/
 bool SaveToText(contact &newPerson, std::string fileName){
     bool success = true;
     ofstream textfile;

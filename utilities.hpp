@@ -74,7 +74,7 @@ bool updateDataBase(AVL *sourceTree){
     }
     return false;
 }
-
+/*Fungsi khusus untuk hanya menampilkan kontak sesuai dengan parametr (mode, dan style)*/
 void showContact(int mode, bool isDescending, AVL *numberTree, AVL *nameTree){
     printTableLine();
     Log("|           N A M A            |   N O M O R   |");
@@ -93,7 +93,8 @@ void showContact(int mode, bool isDescending, AVL *numberTree, AVL *nameTree){
         }
     }
 }
-
+/*Fungsi untuk menghandle lihat kontak, mengambil mode dan style cara menampilkan kontak
+kemudian memanggil showContact dengan mode dan style yang di dapat*/
 void LihatKontak(AVL *nameTree, AVL *numberTree){
     system("cls");
     if(nameTree->_size < 1){
@@ -109,7 +110,7 @@ void LihatKontak(AVL *nameTree, AVL *numberTree){
     showContact(mode, isDescending, numberTree, nameTree);
     system("pause");
 }
-
+/*Fungsi untuk menambah kontak ke dalam tree dan file telepon.txt*/
 void TambahKontak(AVL *nameTree, AVL *numberTree){
     system("cls");
     //cek size kontal
@@ -162,7 +163,7 @@ void TambahKontak(AVL *nameTree, AVL *numberTree){
     Log("Gagal menambahkan kontak");
     system("pause");
 }
-
+/*Fungsi untuk menghapus kontak di dalam tree dan telepon.txt*/
 void HapusKontak(AVL *nameTree, AVL *numberTree){
     contact delContact;
     bool cancel = false;
@@ -193,7 +194,7 @@ void HapusKontak(AVL *nameTree, AVL *numberTree){
     Log("Gagal menghapus kontak");
     system("pause");
 }
-
+/*Fungsi untuk menyunting kontak dalam tree dan telepon.txt*/
 void SuntingKontak(AVL *nameTree, AVL *numberTree){
     contact editContact;
     bool cancel = false;

@@ -1,26 +1,30 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <iomanip>  
+#include <iomanip>
+#include <time.h>
+#include <vector>
 using namespace std;
 using std::left;
 using std::right;
 
 int main(){
-    string a;
-    string b;
-    cin >> a;
-    cin >> b;
-    if(a > b){
-        cout << "a is bigger" << endl;
-    }else if(a == b){
-        cout << "they are the same" << endl;
-    }else{
-        cout << "b is bigger" << endl;
+    vector<int> arr;
+    for(int i = 0;i<1000000;i++){
+        arr.push_back(i);
     }
-    std::cout <<  std::setw(25) << left << a << std::setfill(' ') << ": is her namelollll"<< endl;
-    std::cout <<  std::setw(25) << left << b << std::setfill(' ') << ": is her number" <<endl;
-    // printf("    %-12s\t\t %8d\t\n", a, 123);
-    // printf("    %-12s\t\t %8d\t\n", b, 45678);
-    return 0;
+    int tgt;
+    cin >> tgt;
+    int id = 0;
+    time_t timeStart, timeEnd;
+    time(&timeStart);
+    for(int i = 0;i<1000000;i++){
+        if(arr[i] == tgt){
+            id = i;
+            break;
+        }
+    }
+    time(&timeEnd);
+    double timetaken = double(timeEnd-timeStart);
+    cout << id << " with time: " << timetaken;
 }

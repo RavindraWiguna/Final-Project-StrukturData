@@ -10,11 +10,7 @@ Kelas   : Struktur Data C
 
 #include "utilities.hpp"
 using namespace std;
-/*
-TODO : Membuat batas kontak menjadi 1000, kalau mau dan bisa, shownya pake page, jadi preordernya ada breaknya
-tpi tu keknya ga terlalu penting, or bagus si, in away, kontak hp ya scroll scroll ae, 
-word kepanjangan juga scroll (walo ada page si), code panjang juga scroll
-*/
+
 int main(){
     fstream textfile;
     textfile.open("telepon.txt");
