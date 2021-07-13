@@ -6,6 +6,8 @@ Dibuat oleh:
 Nama    : Putu Ravindra Wiguna
 NRP     : 5025201237
 Kelas   : Struktur Data C
+Tanggal Pembuatan pertama:
+29 Juni 2021
 */
 
 #include "utilities.hpp"
